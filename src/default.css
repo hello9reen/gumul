@@ -1,19 +1,18 @@
 /* @import url(../assets/fonts/NanumSquare.css) */
 
 .gumul {
-	border: 1px solid red;
 	min-height: 100px;
 	min-width: 100px;
 	position: relative;
 }
 
-.gumul>table {
+.gumul table {
 	border-collapse: collapse;
 	table-layout: fixed;
 }
 
-.gumul>table th,
-.gumul>table td {
+.gumul table th,
+.gumul table td {
 	border: 1px solid #ddd;
 	height: 26px;
 	padding: 4px;

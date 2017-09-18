@@ -14,7 +14,8 @@ module.exports = {
 	plugins: [
 //		new CleanWebpackPlugin(['dist']),
 		new HtmlWebpackPlugin({
-			title: 'Gumul'
+			title: 'Gumul',
+			template: './src/index.html'
 		})
 	],
 	module: {
