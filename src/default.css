@@ -1,0 +1,13 @@
+/* @import url(../assets/fonts/NanumSquare.css) */
+
+.gumul {
+	border: 1px solid red;
+	min-height: 100px;
+	min-width: 100px;
+	position: relative;
+}
+
+.gumul>table {
+	border-collapse: collapse;
+	table-layout: fixed;
+}

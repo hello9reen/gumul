@@ -1,0 +1,37 @@
+{
+  "name": "gumul",
+  "version": "0.0.1",
+  "description": "Web-based Data Table",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zkyz/gumul.git"
+  },
+  "keywords": [
+    "DataTable",
+    "Grid"
+  ],
+  "author": "zkyz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zkyz/gumul/issues"
+  },
+  "homepage": "https://github.com/zkyz/gumul#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.16",
+    "css-loader": "^0.28.7",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2",
+    "webpack-merge": "^4.1.0"
+  }
+}
