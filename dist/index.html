@@ -1,9 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Gumul</title>
-  </head>
-  <body>
+<head>
+<meta charset="utf-8">
+<title>Gumul</title>
+<link rel="stylesheet" href="gumul.css">
+</head>
+<body>
+	<div id="test" class="gumul"
+			data-uri="daatx10.json"
+			data-sizes="[60, 90, 100, 70, 90, 90, 120, 60, 80, 100, 50, 40, 200]">
+		<table>
+			<thead>
+				<tr>
+					<th colSpan="3">Persona</th>
+					<th rowSpan="3" data-name="hasOwnCells" data-format="number">cells</th>
+					<th colSpan="2">account</th>
+					<th rowSpan="3">ip</th>
+					<th rowSpan="3" data-format="bool">a u kid?</th>
+					<th rowSpan="3">city</th>
+					<th rowSpan="3">state</th>
+					<th rowSpan="2" colSpan="2">address</th>
+					<th rowSpan="3">words</th>
+				</tr>
+				<tr>
+					<th colSpan="2">name</th>
+					<th rowSpan="2" data-name="birthday" data-format="date" data-pattern="yyyy-MM-dd(HH:mm)">birthday
+					</th>
+					<th rowSpan="2" data-name="id">id</th>
+					<th rowSpan="2">pin</th>
+				</tr>
+				<tr>
+					<th data-name="fname">first</th>
+					<th data-name="lname">last</th>
+					<th>street</th>
+					<th>zip</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td rowSpan="2" data-name="fname"/>
+					<td rowSpan="2" data-name="lname"/>
+					<td rowSpan="2" data-name="birthday"/>
+					<td rowSpan="2" data-name="hasOwnCells"/>
+					<td rowSpan="2" data-name="id"/>
+					<td rowSpan="2" data-name="pin"/>
+					<td rowSpan="2" data-name="ip"/>
+					<td rowSpan="2" data-name="adult"/>
+					<td rowSpan="2" data-name="city"/>
+					<td data-name="state"/>
+					<td rowSpan="2" data-name="address.streetAddress"/>
+					<td rowSpan="2" data-name="address.zip"/>
+					<td rowSpan="2" data-name="words"/>
+				</tr>
+				<tr>
+					<td data-name="address.state"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
   <script type="text/javascript" src="app.bundle.js"></script></body>
+</body>
 </html>

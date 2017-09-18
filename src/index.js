@@ -1,19 +1,35 @@
 import './default.css'
 
-function component() {
-	const element = document.createElement('div')
-	element.classList.add('gumul')
+const Gumul = function (id) {
 
-	console.log(element)	
-	return element
+	// constructor
+	const root = document.getElementById(id)
+
+	const $ = (selector, context) => (context||root).querySelector(selector)
+
+	if (!root) {
+		throw `Seeking fail <div id="${id}" .../>`
+	}
+
+	this.def = {
+		root,
+		table: {
+			head: null,
+			body: null,
+			left: null,
+			cock: null
+		},
+		settings: Object.assign({}, root.dataset)
+	}
+
+	if (this.def.settings.sizes) {
+		this.def.settings.sizes = JSON.parse(this.def.settings.sizes)
+	}
+}
+Gumul.prototype.load = function() {
+	console.log(this.def)
 }
 
-document.body.appendChild(component())
 
-
-// HMR (Hot Module Replacement)
-if (module.hot) {
-	module.hot.accept('./index.js', function () {
-		console.log('updated!')
-	})
-}
+const test = new Gumul('test')
+test.load()

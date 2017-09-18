@@ -11,3 +11,10 @@
 	border-collapse: collapse;
 	table-layout: fixed;
 }
+
+.gumul>table th,
+.gumul>table td {
+	border: 1px solid #ddd;
+	height: 26px;
+	padding: 4px;
+}
