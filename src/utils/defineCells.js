@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export default (html) => {
 
 	let id = 0
@@ -10,12 +12,12 @@ export default (html) => {
 		...element.dataset
 	})
 
-	let rows = html.querySelectorAll('tr')
+	let rows = $('tr',html)
 	if (!rows.length) {
 		rows = [rows]
 	}
 
-	rows.forEach(tr => {
+	rows.each((i, tr) => {
 		rowIndex++
 
 		if (!items[rowIndex]) {
@@ -24,12 +26,12 @@ export default (html) => {
 
 		let cellIndex = -1
 
-		let cells = tr.querySelectorAll('th,td')
+		let cells = $('th,td',tr)
 		if (!cells.length) {
 			cells = [cells]
 		}
 
-		cells.forEach(th => {
+		cells.each((j, th) => {
 			id++
 			cellIndex++
 

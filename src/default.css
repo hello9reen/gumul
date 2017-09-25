@@ -1,16 +1,24 @@
 /* @import url(../assets/fonts/NanumSquare.css) */
 
 .gumul {
+	background: rgb(245, 245, 245) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><line x1='10' y1='0' x2='0' y2='10' stroke='rgb(240,240,240)' stroke-width='1'/></svg>");
 	font-size: 14px;
-	min-height: 100px;
+	height: 150px;
 	min-width: 100px;
 	overflow: hidden;
 	position: relative;
 }
 
 .gumul table {
+	background-color: #fff;
 	border-collapse: collapse;
+	opacity: 0;
 	table-layout: fixed;
+	transition: opacity 1s;
+}
+
+.gumul.on-started table {
+	opacity: 1;
 }
 
 .gumul table th,
@@ -20,9 +28,8 @@
 	padding: 4px;
 }
 
-.gumul-cock,
-.gumul-left,
-.gumul-head {
+.gumul>div {
+	float: left;
 	overflow: hidden;
 }
 

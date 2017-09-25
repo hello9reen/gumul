@@ -1,23 +1,19 @@
-export default (sizes) => {
-	const colgroup = document.createElement('colgroup')
+import $ from 'jquery'
 
-	let _sizes = null
-	if (/^\[[0-9, ]+]$/.test(sizes)) {
-		_sizes = JSON.parse(sizes.replace(/\s/g, ''))
-	}
-	else if (/^[0-9, ]+$/.test(sizes)) {
-		_sizes = sizes.replace(/\s/g, '').split(',')
-	}
+export default (sizes, hide, start = 0, end = sizes.length) => {
+	const colgroup = $('<colgroup/>')
 
-	if (_sizes) {
-		_sizes.forEach(size => {
-			const col = document.createElement('col')
-			col.setAttribute('width', size)
-			colgroup.appendChild(col)
+	let _sizes = sizes.slice(start, end)
+
+	if (hide && hide.length > 0) {
+		hide.forEach(index => {
+			_sizes = _sizes.slice(0, index).concat(_sizes.slice(index + 1))
 		})
-
-		colgroup.dataset.size = _sizes.reduce((a, b) => a + b)
 	}
+
+	_sizes.forEach(size => {
+		colgroup.append($('<col/>').width(size))
+	})
 
 	return colgroup
 }

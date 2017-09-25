@@ -13,6 +13,9 @@ module.exports = {
 	},
 	plugins: [
 //		new CleanWebpackPlugin(['dist']),
+		new webpack.ProvidePlugin({
+			$: 'jquery'
+		}),
 		new HtmlWebpackPlugin({
 			title:    'Gumul',
 			template: './src/index.html'

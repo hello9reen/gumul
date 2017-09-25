@@ -1,4 +1,4 @@
-export default (cells) => {
+export default (cells, hide) => {
 	let cid = -1
 
 	const thead = document.createElement('thead')
@@ -7,20 +7,22 @@ export default (cells) => {
 		const row = document.createElement('tr')
 
 		for (let j = 0; j < cells[i].length; j++) {
-			if (cells[i][j].id > cid) {
-				cid = cells[i][j].id
+			if (!hide.includes(j)) {
+				if (cells[i][j].id > cid) {
+					cid = cells[i][j].id
 
-				let colSpan = 0
-				while (cells[i].length > j + ++colSpan && cid === cells[i][j + colSpan].id) {
-					//
+					let colSpan = 0
+					while (cells[i].length > j + ++colSpan && cid === cells[i][j + colSpan].id) {
+						//
+					}
+
+					let rowSpan = 0
+					while (cells.length > i + ++rowSpan && cid === cells[i + rowSpan][j].id) {
+						//
+					}
+
+					row.appendChild(createTh(cells[i][j].text, rowSpan, colSpan))
 				}
-
-				let rowSpan = 0
-				while (cells.length > i + ++rowSpan && cid === cells[i + rowSpan][j].id) {
-					//
-				}
-
-				row.appendChild(createTh(cells[i][j].text, rowSpan, colSpan))
 			}
 		}
 

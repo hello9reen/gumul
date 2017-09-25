@@ -1,71 +1,99 @@
+import utils from './utils'
+import $ from 'jquery'
+
 import './default.css'
 
-import utils from './utils'
-import generateColgroup from './utils/generateColgroup'
-
 const Gumul = function (id) {
-	const _root = document.getElementById(id)
-	if (!_root) {
+	const $root = $(`#${id}`)
+
+	if (!$root) {
 		throw `Seeking fail <div id="${id}" ...`
 	}
 
+
+
 	// definition
 	this.def = {
-		root: _root,
-		cells: {
-			head: utils.defineCells(_root.querySelector('table>thead')),
-			body: utils.defineCells(_root.querySelector('table>tbody'))
+		root: $root,
+		cell: {
+			thead: utils.defineCells($('>table>thead',$root)),
+			tbody: utils.defineCells($('>table>tbody',$root))
 		},
-		forms: {
-			row: null
-		},
-		element: {
-			head: null,
+		form: {
 			body: null,
-			left: null,
-			cock: null
+			left: null
 		},
-		settings: {..._root.dataset}
+		head: $('<div/>').addClass('gumul-head'),
+		body: $('<div/>').addClass('gumul-body'),
+		left: $('<div/>').addClass('gumul-left'),
+		cock: $('<div/>').addClass('gumul-cock'),
+		hide: [],
+		fix: 0,
+		...$root.data()
 	}
 
-	const {root, cells, element, settings} = this.def
-
-	// scaffolding initiative elements
-	root.appendChild(element.head = document.createElement('div'))
-	root.appendChild(element.body = document.createElement('div'))
-	root.appendChild(element.left = document.createElement('div'))
-	root.appendChild(element.cock = document.createElement('div'))
-	element.head.classList.add('gumul-head')
-	element.body.classList.add('gumul-body')
-	element.left.classList.add('gumul-left')
-	element.cock.classList.add('gumul-cock')
-
 	// remove defined-table element
-	root.removeChild(root.querySelector('table'))
+	$('>table',$root).remove()
 
+	// initiative elements
+	const {head, body, left, cock} = this.def
+	$root.append(cock, head, left, body)
+
+	//
+	this.frameBuild()
+}
+Gumul.prototype.frameBuild = function () {
+	const {root, head, body, cock, left, cell, ...def} = this.def
+	const width = {
+		left: def.size.map(i => def.hide.includes(i) ? 0 : i).slice(0, def.fix).reduce((a,b) => a + b),
+		body: def.size.map(i => def.hide.includes(i) ? 0 : i).slice(def.fix).reduce((a,b) => a + b)
+	}
 
 	// generate new table
-	const _colgroup = generateColgroup(settings.size)
-	const _table = document.createElement('table')
-	_table.style.width = _colgroup.dataset.size + 'px'
-	_table.appendChild(_colgroup)
+	if (def.fix) {
+		this.def.form.body = utils.generateTbody(cell.tbody, def.hide, def.fix)
+		body.colgroup = utils.generateColgroup(def.size, def.hide, def.fix)
+		body.table = $('<table/>').append(body.colgroup).width(width.body)
+		body.table.append(this.def.form.body)
+		body.append(body.table)
 
-	element.head.table = _table.cloneNode(true)
-	element.head.table.appendChild(utils.generateThead(cells.head))
-	element.head.appendChild(element.head.table)
+		this.def.form.left = utils.generateTbody(cell.tbody, def.hide, 0, def.fix)
+		left.colgroup = utils.generateColgroup(def.size, def.hide, 0, def.fix)
+		left.table = $('<table/>').append(left.colgroup).width(width.left)
+		left.table.append(this.def.form.left)
+		left.append(left.table, left.colgroup)
 
-	element.body.table = _table.cloneNode(true)
-	element.body.table.appendChild(utils.generateTbody(cells.body))
-	element.body.appendChild(element.body.table)
+		head.colgroup = utils.generateColgroup(def.size, def.hide)
+		head.table = $('<table/>').append(head.colgroup).width(width.left + width.body)
+		head.table.append(utils.generateThead(cell.thead, def.hide))
+		head.append(head.table)
+
+		cock.table = head.table.clone(true)
+		cock.append(cock.table)
+
+		setTimeout(() => {
+			cock.width(width.left)
+			left.width(width.left)
+			head.width(root.width() - width.left)
+			body.width(root.width() - width.left)
+
+			head.table.css('margin-left', -(width.left))
+		})
+	}
+	else {
+		// TODO no fixed
+	}
 
 	// scroll propagation
-	element.body.addEventListener('scroll', e => {
-		element.head.table.style.marginLeft = (e.target.scrollLeft * -1) + 'px'
-		console.log(e.target.scrollTop)
-		setTimeout(() => e.target.scrollTop = 20, 200)
+	body.on('scroll', e => {
+		head.table.css('margin-left', e.target.scrollLeft * -1)
 	})
+
+	// complete
+	setTimeout(() => root.addClass('on-started'), 100)
+
 }
-Gumul.prototype.load = function() {
+Gumul.prototype.load = function () {
 }
 
 export default Gumul
