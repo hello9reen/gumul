@@ -1,33 +1,33 @@
 const path = require('path')
-const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	entry:   {
-		app: './src/index.js'
+		gumul: './src/index.js'
 	},
 	output:  {
-		filename: '[name].bundle.js',
+		filename: '[name].js',
 		path:     path.resolve(__dirname, 'dist')
 	},
 	plugins: [
-//		new CleanWebpackPlugin(['dist']),
-		new webpack.ProvidePlugin({
-			$: 'jquery'
+		new ExtractTextPlugin({
+			filename: 'gumul.css',
+			disable: false,
+			allChunks: true
 		}),
 		new HtmlWebpackPlugin({
-			title:    'Gumul',
-			template: './src/index.html'
+			template: '!html-webpack-plugin/lib/loader!index.html',
+			filename: 'index.html'
 		})
 	],
 	module:  {
 		rules: [
 			{
 				enforce: 'pre',
-				test: /\.js$/,
+				test:    /\.js$/,
 				exclude: /node_modules/,
-				loader: 'eslint-loader'
+				loader:  'eslint-loader'
 			},
 			{
 				test:    /\.js$/,
@@ -45,17 +45,27 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.css$/,
-				use:  [
-					'style-loader',
-					'css-loader'
-				]
+				test:    /\.css$/,
+				exclude: /node_modules/,
+				use:     ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use:      'css-loader'
+				})
 			},
 			{
-				test: /\.(png|svg|jpg|gif|woff2|woff|ttf|eot)$/,
-				use:  [
-					'file-loader'
-				]
+				test:    /\.scss$/,
+				exclude: /node_modules/,
+				use:     ExtractTextPlugin.extract({
+					use: ['css-loader', 'sass-loader']
+				})
+			},
+			{
+				test: /\.html$/i,
+				use:  'html-loader'
+			},
+			{
+				test: /\.(json|png|svg|jpg|gif|woff2|woff|ttf|eot)$/,
+				use:  'file-loader'
 			}
 		]
 	}

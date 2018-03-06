@@ -1,0 +1,83 @@
+.gumul {
+	background: rgb(245, 245, 245) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><line x1='10' y1='0' x2='0' y2='10' stroke='rgb(240,240,240)' stroke-width='1'/></svg>");
+	overflow: hidden;
+	position: relative;
+
+	& table {
+		background-color: #fff;
+		border-collapse: collapse;
+		table-layout: fixed;
+		width: 0;
+
+		/*
+        &.on-started table {
+            opacity: 1;
+            transition: opacity 1s;
+        }
+        */
+
+		& tr {
+			height: 25px;
+		}
+		& th,
+		& td {
+			border: 1px solid #ddd;
+			padding: 4px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			&.no-word-wrap {
+				text-overflow: clip;
+			}
+		}
+	}
+
+	&-cock,
+	&-left {
+		border-right: 1px solid #aaa;
+		overflow: hidden;
+		position: absolute;
+		z-index: 2;
+	}
+	&-cock {
+		z-index: 3;
+	}
+	&-head {
+		position: absolute;
+		z-index: 2;
+	}
+	&-main {
+		overflow: auto;
+		position: relative;
+
+		&>table {
+			margin-bottom: 50px;
+			&:before {
+				content: ' ';
+				height: 1px;
+				position: absolute;
+				right: -100px;
+				width: 100px;
+			}
+		}
+	}
+	&-resizer {
+		cursor: move;
+		cursor: ew-resize;
+		cursor: col-resize;
+		height: 100%;
+		margin-left: -2px;
+		position: absolute;
+		top: 0;
+		width: 5px;
+		z-index: 3;
+
+		&-grab:before {
+			border-right: 1px dashed #000;
+			content: " ";
+			display: block;
+			height: 100%;
+			width: 4px;
+		}
+	}
+}
