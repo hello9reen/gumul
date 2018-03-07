@@ -30,6 +30,29 @@
 				text-overflow: clip;
 			}
 		}
+
+		& th[data-name] {
+			cursor: pointer;
+			position: relative;
+
+			&>.sorted {
+				font-family: "Arial", sans-serif;
+				font-size: 12px;
+				line-height: 12px;
+				opacity: .4;
+				position: absolute;
+				right: 0;
+				top: 0;
+
+				&:before {
+					content: "\025B4";
+					display: inline-block;
+				}
+				&.desc:before {
+					transform: rotate(180deg);
+				}
+			}
+		}
 	}
 
 	&-cock,
@@ -61,6 +84,7 @@
 			}
 		}
 	}
+	//noinspection CssOverwrittenProperties
 	&-resizer {
 		cursor: move;
 		cursor: ew-resize;

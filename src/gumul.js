@@ -23,7 +23,8 @@ export default class Gumul {
 			size: [],
 			load: {
 				data: [],
-				page: {}
+				page: {},
+				sort: []
 			},
 			...$root.dataset
 		}
@@ -75,16 +76,18 @@ export default class Gumul {
 		const headTable = table.cloneNode(true)
 		headTable.querySelectorAll('tbody').forEach(t => headTable.removeChild(t))
 
+		this._sortable(headTable)
+
 		if (fix > 0) {
 			this.def.cock = document.createElement('div')
 			this.def.cock.classList.add('gumul-cock')
-			this.def.cock.appendChild(headTable)
+			this.def.cock.appendChild(this._sortable(headTable.cloneNode(true)))
 			root.appendChild(this.def.cock)
 		}
 
 		this.def.head = document.createElement('div')
 		this.def.head.classList.add('gumul-head')
-		this.def.head.appendChild(headTable.cloneNode(true))
+		this.def.head.appendChild(headTable)
 		root.appendChild(this.def.head)
 
 
@@ -135,7 +138,6 @@ export default class Gumul {
 					root.classList.add('gumul-resizing')
 				}
 
-
 				let elem = e.target
 				let fn = {
 					move: e => {
@@ -144,13 +146,10 @@ export default class Gumul {
 
 						fn.distance = e.pageX - fn.startX
 						fn.target.style.left = (fn.left + fn.distance) + 'px'
-						console.log(fn.distance)
 					},
 					fire: () => {
 						const index = parseInt(fn.target.dataset.index)
 						let width = this.def.size[index] += fn.distance
-
-						console.log(fn)
 
 						if (width < 10 || !width) {
 							width = this.def.size[index] = 10
@@ -210,6 +209,53 @@ export default class Gumul {
 		size.forEach((width, index) => {
 			resizer[index].style.left = (length += width) + 'px'
 		})
+	}
+	_sortable (table) {
+		table.querySelectorAll('th[data-name]').forEach(th => {
+			th.addEventListener('click', () => {
+				let sub = th.querySelector('.sorted')
+
+				console.log(this.def.load.sort)
+
+				if (sub) {
+					sub.classList.toggle('desc')
+					sub.classList.toggle('asc')
+				}
+				else {
+					sub = document.createElement('sub')
+					sub.classList.add('sorted', 'asc')
+
+					this.def.load.sort.push({
+						name: th.getAttribute('data-name'),
+						element: sub
+					})
+
+					sub.innerHTML = this.def.load.sort.length
+
+					sub.addEventListener('mouseover', () => {
+						sub.title = sub.innerHTML
+						sub.innerHTML = 'DELETE'
+					})
+					sub.addEventListener('mouseout', () => {
+						sub.innerHTML = sub.title
+						sub.title = ''
+					})
+					sub.addEventListener('click', e => {
+						const i = parseInt(sub.getAttribute('title')) - 1
+
+						this.def.load.sort = this.def.load.sort.slice(0, i).concat(this.def.load.sort.slice(i + 1))
+						this.def.load.sort.forEach((i, index) => i.element.innerHTML = index + 1)
+
+						sub.parentNode.removeChild(sub)
+						e.stopPropagation()
+					})
+
+					th.appendChild(sub)
+				}
+			})
+		})
+
+		return table
 	}
 
 
