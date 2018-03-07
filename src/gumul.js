@@ -211,11 +211,11 @@ export default class Gumul {
 		})
 	}
 	_sortable (table) {
+		const {load} = this.def
+
 		table.querySelectorAll('th[data-name]').forEach(th => {
 			th.addEventListener('click', () => {
 				let sub = th.querySelector('.sorted')
-
-				console.log(this.def.load.sort)
 
 				if (sub) {
 					sub.classList.toggle('desc')
@@ -225,12 +225,12 @@ export default class Gumul {
 					sub = document.createElement('sub')
 					sub.classList.add('sorted', 'asc')
 
-					this.def.load.sort.push({
+					load.sort.push({
 						name: th.getAttribute('data-name'),
 						element: sub
 					})
 
-					sub.innerHTML = this.def.load.sort.length
+					sub.innerHTML = load.sort.length
 
 					sub.addEventListener('mouseover', () => {
 						sub.title = sub.innerHTML
@@ -243,8 +243,8 @@ export default class Gumul {
 					sub.addEventListener('click', e => {
 						const i = parseInt(sub.getAttribute('title')) - 1
 
-						this.def.load.sort = this.def.load.sort.slice(0, i).concat(this.def.load.sort.slice(i + 1))
-						this.def.load.sort.forEach((i, index) => i.element.innerHTML = index + 1)
+						load.sort = load.sort.slice(0, i).concat(load.sort.slice(i + 1))
+						load.sort.forEach((i, index) => i.element.innerHTML = index + 1)
 
 						sub.parentNode.removeChild(sub)
 						e.stopPropagation()
@@ -264,7 +264,20 @@ export default class Gumul {
 
 		load.data = []
 
-		fetch(uri, {
+		let params = ''
+
+		if (load.sort.length > 0) {
+			if (uri.indexOf('?') < 0) {
+				params += '?'
+			}
+
+			load.sort.forEach(item => {
+				params += '&sort=' + item.name + ','
+				params += item.element.classList.contains('desc') ? 'desc' : 'asc'
+			})
+		}
+
+		fetch(uri + params, {
 			body: {
 				page
 			}
